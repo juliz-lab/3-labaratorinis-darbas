@@ -5,9 +5,17 @@
 
 **V3.0**---------------------------------------------------------------------------------------------------------------------------
 
-1. Sukurtas programos "VidurkisGO" paleidimo failas.
-2. ...
-**V2.0**---------------------------------------------------------------------------------------------------------------------------
+1. Sukurtas programos "VidurkisGO" paleidimo failas setup.exe (pagal 2 varsiją).
+
+Idegimo instrukcija:
+1. Atsisiųskite setup.exe. Pagal išanksto nustatytus nustatymus failas bus įrašytas į "C:/Program files/VU/Julija-Kuc".
+2. Paleiskite atsisiųstą failą.
+3. Pažymėkite, kad norite programos vykdimo nuorodos darbalaukyje.
+4. Spauskite "Install".
+5. Sėkmingo naudojimo.
+
+
+**V2.0**-------------------------------------------------------------------------------------------------------------------------
 
 1. Sukurta dokumentacija naudojant Doxygen. <br>
 2. Realizuoti Unit testai. Rinkausi Dogtest metodą, nes jis paprasčiausiai įgyvendinamas ir tinkamiausias mūsų nedidelei programai. Buvo sukurti 3 testai, kurie patikrina Studento klasę. Žemiau trumpai aprašysiu kiekvieną iš jų.<br>
