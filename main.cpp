@@ -1,7 +1,7 @@
 #include "mylib.h"
 /**
  * @file main.cpp
- * Čia vyksta bendravimas su naudotoju. 
+ * Čia vyksta bendravimas su naudotoju.
  */
 int main()
 {
@@ -17,12 +17,12 @@ int main()
         char ats;
         string pasirinkimas;
         char pagal;
+        generuok_failus();
         cout << "Koki faila noretumete nuskaityti: a - 1000, b - 10000, c - 100000, d - 1000000, e - 10000000? ";
         cin >> ats;
         map<char, int> tipai = {{'a', 1000}, {'b', 10000}, {'c', 100000}, {'d', 1000000}, {'e', 10000000}};
         int irasu_sk = tipai[ats];
         string fail_pav = "studentai" + to_string(irasu_sk) + ".txt";
-
         cout << "Pagal ka rikiuojame? v - vardas, p - pavarde, g - galutinis pazymys: ";
         cin >> pagal;
 
@@ -74,7 +74,7 @@ int main()
         }
 
         Grupe.erase(Grupe.begin() + i, Grupe.end());
-        
+
         spausdink_grupe(Grupe, "v");
         spausdink_grupe(nemoksos, "v");
 
