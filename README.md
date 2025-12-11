@@ -7,10 +7,10 @@
 
 1. Sukurtas programos "VidurkisGO" paleidimo failas setup.exe (pagal 2 versiją).
 
-Idegimo instrukcija:
-1. Atsisiųskite setup.exe. Pagal išanksto nustatytus nustatymus failas bus įrašytas į "C:/Program files/VU/Julija-Kuc".
+Idiegimo instrukcija:
+1. Atsisiųskite setup.exe. Pagal iš anksto nustatytus nustatymus failas bus įrašytas į "C:/Program files/VU/Julija-Kuc".
 2. Paleiskite atsisiųstą failą.
-3. Pažymėkite, kad norite programos vykdimo nuorodos darbalaukyje.
+3. Pažymėkite, kad norite programos vykdymo nuorodos darbalaukyje.
 4. Spauskite "Install".
 5. Sėkmingo naudojimo.
 
