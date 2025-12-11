@@ -1,187 +1,425 @@
-
-/**
- * @file mylib.h
- * Čia apibrėžtos visos naudojamos funkcijos. 
- */
-
- #include <iomanip>
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <algorithm>
-#include <random> 
-#include <fstream>
-#include <chrono>
-#include <map>
-#include <list>
-#include <chrono>
-#include <iterator>
-
-
-#include "Zmogus.h"
+#include "mylib.h"
+#include "timer.h"
 #include "Studentas.h"
-
-using std::cin;
-using std::cout;
-using std::endl;
-using std::fixed;
-using std::ifstream;
-using std::istringstream; // stringe esančių žodžių sk skaičiavimui
-using std::left;
-using std::list;
-using std::map;
-using std::move;
-using std::mt19937;
-using std::ofstream;
-using std::partition;
-using std::random_device;
-using std::right;
-using std::setprecision;
-using std::setw;
-using std::sort;
-using std::string;
-using std::stringstream;
-using std::to_string;
-using std::uniform_int_distribution;
-using std::vector;
-using std::ws;
-
-void rusiuok_vect(vector<Studentas> &konteineris, char pagal);
-void spausdink_grupe(const vector <Studentas> &vekt, string tipas);
-
 /**
- * @brief Padalija studentų vektorių į dvi grupes pagal galutinį balą.
- * 
- * Funkcija sukuria du naujus vektorius: vieną moksliukams 
- * (galutinis balas >= 5.0) ir vieną nemoksoms 
- * (galutinis balas < 5.0).
- * 
- * Iš paduoto studentų sąrašo atitinkamai kiekvienas studentas yra 
- * priskiriamas vienai iš grupių.
- * 
- * @param Grupe Pradinis visų studentų vektorius.
+ * @file mylib.cpp
+ * Čia realizuotos viso apibrėžtos funkcijos.
  */
-void pasiskirstymas_vector_1(const vector<Studentas> &Grupe, const int &irasu_sk);
-
-/**
- * @brief Padalija studentų sąrašą į dvi grupes pagal galutinį balą.
- * 
- * Funkcija sukuria du naujus sąrašus: vieną moksliukams 
- * (galutinis balas >= 5.0) ir vieną nemoksoms 
- * (galutinis balas < 5.0).
- * 
- * Iš paduoto studentų sąrašo atitinkamai kiekvienas studentas yra 
- * priskiriamas vienai iš grupių.
- * 
- * @param Grupe Pradinis visų studentų vektorius.
- */
-void pasiskirstymas_list_1(const list<Studentas> &Grupe, const int &irasu_sk);
-
-/**
- * @brief Padalija studentų sąrašą į dvi grupes pagal galutinį balą.
- * 
- * Funkcija perrašo pradinį vektorių taip, kad pradžioje liktų
- * tik išlaikę studentasi ( galutinis balas >= 5.0), o neišlaikę
- * surenkami į atskirą vektorių. 
- * 
- * Pirmiausiai pereiname per pradinį vektorių. Tada studentai su galutiniu
- * balu >=5.0 perkeliami į vektoriaus pradžią. Studentai su galutiniu balu <5.0
- * surenkami į atskirą vektorių nemoksos.
- * 
- * @param Grupe Pradinis visų studentų vektorius.
- */
-void pasiskirstymas_vector_2(vector<Studentas> Grupe, const int &irasu_sk);
-
-/**
- * @brief Padalija studentų sąrašą į dvi grupes pagal galutinį balą.
- * 
- * Funkcija perrašo pradinį sąrašą taip, kad liktų
- * tik išlaikę studentai (galutinis balas >= 5.0), o neišlaikę
- * surenkami į atskirą vektorių. 
- * 
- * Pirmiausiai pereiname per pradinį sąrašą. Tada studentai su galutiniu
- * balu < 5.0 dedami į nemoksu sąrašą ir iš pradinio vektoriaus
- * pašalinami.
- * 
- * @param Grupe Pradinis visų studentų sąrašas.
- */
-void pasiskirstymas_list_2(list<Studentas> Grupe, const int &irasu_sk);
-
-/**
- * @brief Padalija studentų sąrašą į dvi grupes pagal galutinį balą.
- * 
- * Funkcija naudoja std::partition, kurie perrašo pradinį vektorių taip, kad liktų
- * priekyje tik išlaikę studentai (galutinis balas >= 5.0), o neišlaikę gale, vėliau
- * surenkami į atskirą vektorių. 
- * 
- * @param Grupe nuoroda į pradinį visų studentų vektorių.
- */
-void pasiskirstymas_vector_3(vector<Studentas> &Grupe, const int &irasu_sk);
-
-/**
- * @brief Padalija studentų sąrašą į dvi grupes pagal galutinį balą.
- * 
- * Funkcija naudoja std::remove_if, kuris perrašo pradinį sarašą taip, kad liktų
- * tik išlaikę studentai (galutinis balas >= 5.0), o neišlaikę
- * surenkami į atskirą vektorių. 
- * 
- * @param Grupe nuoroda į pradinį visų studentų sąrašą.
- */
-void pasiskirstymas_list_3(list<Studentas> &Grupe, const int &irasu_sk);
-
-/**
-  * @brief Vykdomas nurodyto failo nuskaitymas per buferį.
-  * 
-  * Funkcija atidaro tekstinį failą, perskaito visą jo turinį į buferį
-  * ir pagal kiekvieną eilutę sukuria 'Studentas' objektus, kuriuos
-  * sudeda į vektorių.
-  * 
-  * @param failas Kelias iki failo, kurį reikia nuskaityti.
-  * 
-  * @return Vektorius 'Studentas' objektų, nuskatytų iš failo.
-  * 
-  * @note Jei failo nepavyksta atidaryti, grąžinamas tuščias vektorius.
-  */
-vector<Studentas> Failo_nuskaitymas(const string &failas);
-
-/**
-  * @brief Vykdoma tik tada, kada žmogus pasirenka įvesti duomenis rankyte.
-  * 
-  * Funkcija sukuria objektą Studentas ir surenka visus duomenis apie jį.
-  * 
-  * @return Objektas 'Studentas' apie kurį surinkta visa reikalinga informacija.
-  * 
-  */
-Studentas Stud_iv();
-double Mediana();
-
-/**
- * @brief Išsaugo studentų duomenis į tekstinius failus.
- *
- * Funkcija sukuria du failus: vieną moksliukams, kitą nemoksoms.
- * Studentai išrašomi į atskirus failus (vardas, pavardė ir galutinis pažymys)
- *
- * Failų pavadinimai generuojami pagal perduotą strategiją ir konteinerio tipą.
- *
- * @tparam Container Bet kuris konteinerio tipas.
- *
- * @param moksliukai Konteineris su išlaikiusiais studentais.
- * @param nemoksos Konteineris su neišlaikiusiais studentais.
- * @param strategija Naudotos strategijos numeris (pvz., "1", "2", "3").
- * @param konteineris Konteinerio pavadinimas (pvz., "vector", "list").
- */
-template <typename Container>
-void Spausdink(const Container &moksliukai, const Container &nemoksos, const string &strategija, const string &konteineris)
+vector<Studentas> Failo_nuskaitymas(const string &failas)
 {
-    string sablonas = "rezultatai_" + strategija + "_" + konteineris;
-    ofstream frM(sablonas + "_moksliukai.txt");
-    ofstream frN(sablonas + "_nemoksos.txt");
-    for (auto it = std::begin(moksliukai); it != std::end(moksliukai); ++it)
+    ifstream fd(failas);
+    if (!fd)
     {
-        frM << it->vardas() << ' ' << it->pavarde() << ' ' << it->galutinis() << endl;
+        cout << "nepavyko atidaryti failo: " << failas << endl;
+        return {};
     }
-    for (auto it = std::begin(nemoksos); it != std::end(nemoksos); ++it)
+    else
     {
-        frN << it->vardas() << ' ' << it->pavarde() << ' ' << it->galutinis() << endl;
+        cout << "Nuskaitomas " << failas << endl;
     }
+    stringstream buffer;
+    vector<Studentas> Grupe;
+    string eil;
+    buffer << fd.rdbuf(); // Visas failas iš karto perkeliamas į buferį
+    fd.close();
+    getline(buffer, eil);
+    while (getline(buffer, eil))
+    {
+        istringstream iss(eil); // eilute paverciam i duomenu srauta, pav iss
+        Studentas stud(iss);
+        Grupe.push_back(stud);
+    }
+    return Grupe;
+}
+
+/**
+ * @brief Patikrina, ar įvestas pažymys yra tinkamas.
+ *
+ * Funkcija patikrina ar įvestis tinka, jei reikia
+ * išvalo klaidos būseną, o tada tikrina ar įvestis
+ *  tarp 0 ir 10.
+ *
+ * @param laik_paz Įvestas pažymys, kurį tikrinam.
+ *
+ * @return bool tipo reikšmė:
+ * 'true' - jei teiginas (1-10);
+ * 'false' - jei įvestis neteisinga;
+ */
+bool paz_tikrinimas(int laik_paz)
+{
+    if (cin.fail()) // naudojamas patikrinti ar inputas teisingas.
+    {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Ivedete ne skaiciu. Iveskite skaiciu." << endl;
+        return false;
+    }
+    if (laik_paz > 0 && laik_paz <= 10)
+    {
+        return true;
+    }
+    else
+    {
+        cout << "Netinkamas skaicius. Pabandykite dar karta." << endl;
+        return false;
+    }
+}
+
+int atsitiktinis_sk()
+{
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(1, 10); // uztikrina, kad skaiciai butu butent nuo 1 iki 10.
+    return dist(gen);
+}
+
+Studentas Stud_iv()
+{
+    int m, laik_paz, suma = 0, tempE;
+    string ats, tempV, tempP;
+    Studentas Pirmas;
+    vector<int> tempPaz;
+    cout << "Prasau ivesti studento duomenis: " << endl;
+    cout << "Vardas: ";
+    cin >> tempV;
+    Pirmas.setVardas(tempV);
+    cout << "Pavarde: ";
+    cin >> tempP;
+    Pirmas.setPavarde(tempP);
+    cout << "Ar norite, kad studento (-es) vardu " << Pirmas.vardas() << " pazymiai butu generuojami atsitiktinai (t arba n)? " << endl;
+    cin >> ats;
+
+    if (ats == "t")
+    {
+        bool dar = true;
+        int paz = 1;
+        while (dar)
+        {
+            if (paz == 1)
+            {
+                int x = atsitiktinis_sk();
+                cout << "Sugeneruotas " << paz << "-as pazymys yra " << x << endl;
+                tempPaz.push_back(x);
+                suma += x;
+                paz += 1;
+            }
+            else
+            {
+                cout << "Ar sugeneruoti dar viena pazymi (t arba n)?" << endl;
+                cin >> ats;
+                if (ats == "t")
+                {
+                    int x = atsitiktinis_sk();
+                    cout << "Sugeneruotas " << paz << " yra " << x << endl;
+                    tempPaz.push_back(x);
+                    suma += x;
+                    paz += 1;
+                }
+                else
+                {
+                    dar = false;
+                }
+            }
+        }
+        int x = atsitiktinis_sk();
+        cout << "Sugeneruotas egzamino rezultatas yra:" << x << endl;
+        tempE = x;
+        Pirmas.setPaz(tempPaz);
+        Pirmas.setEgz(tempE);
+        double tempVid = double(suma) / double(tempPaz.size()) * 0.4 + 0.6 * tempE;
+        Pirmas.setGal(tempVid);
+        double tempMed = double(Pirmas.Mediana()) * 0.4 + 0.6 * tempE;
+        Pirmas.setMed(tempMed);
+
+        return Pirmas;
+    }
+    else
+    {
+        bool vedam = true;
+        int k = 1;
+        cout << "Baige vesti pazymius - iveskite 0." << endl;
+        while (vedam)
+        {
+            cout << "Iveskite " << k << " pazymi:";
+            cin >> laik_paz;
+            if (laik_paz == 0)
+            {
+                vedam = false;
+                break;
+            }
+            else
+            {
+                if (paz_tikrinimas(laik_paz) == true)
+                {
+                    tempPaz.push_back(laik_paz);
+                    suma += laik_paz;
+                    k += 1;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
+        k -= 1;
+        cout << "Koks yra egzamino rezultatas? " << endl;
+        cin >> tempE;
+        Pirmas.setPaz(tempPaz);
+        Pirmas.setEgz(tempE);
+        double tempGal = double(suma) / double(tempPaz.size()) * 0.4 + 0.6 * tempE;
+        Pirmas.setGal(tempGal);
+        double tempMed = double(Pirmas.Mediana()) * 0.4 + 0.6 * tempE;
+        Pirmas.setMed(tempMed);
+    }
+
+    return Pirmas;
+}
+
+void rusiuok_vect(vector<Studentas> &konteineris, char pagal = 'g')
+{
+    sort(konteineris.begin(), konteineris.end(), [pagal](const Studentas &a, const Studentas &b)
+         {
+        if (pagal == 'v') {
+            return a.vardas() < b.vardas();
+        }
+        else if (pagal == 'p') {
+            return a.pavarde() < b.pavarde();
+        }
+        else if (pagal == 'g') {
+            return a.galutinis() > b.galutinis();
+        }
+        else return false; });
+}
+
+void spausdink_grupe(const vector<Studentas> &vekt, string tipas)
+{
+    stringstream ss;
+    ss << setw(16) << left << "Pavarde" << setw(15) << left << "Vardas";
+    if (tipas == "v")
+    {
+        ss << setw(10) << left << "Gal.";
+        for (auto &stud : vekt)
+        {
+            ss << endl
+               << setw(16) << left << stud.pavarde() << setw(15) << left << stud.vardas() << setw(10) << fixed << setprecision(2) << stud.galutinis();
+        }
+    }
+    if (tipas == "m")
+    {
+        ss << "Med.";
+        for (auto &stud : vekt)
+        {
+            ss << endl
+               << setw(16) << left << stud.pavarde() << setw(15) << left << stud.vardas() << setw(10) << fixed << setprecision(2) << stud.galutinisMed();
+        }
+    }
+    if (tipas == "a")
+    {
+        ss << setw(10) << "Gal. " << setw(10) << " Med.";
+        for (auto &stud : vekt)
+        {
+            ss << endl
+               << setw(16) << left << stud.pavarde() << setw(15) << left << stud.vardas() << setw(10) << fixed << setprecision(2) << stud.galutinis() << setw(10) << fixed << setprecision(2) << stud.galutinisMed();
+        }
+    }
+
+    if (vekt[0].galutinis() >= 5)
+    {
+        ofstream out("moksliukai.txt");
+        out << ss.str();
+        out.close();
+    }
+    else
+    {
+        ofstream out("nemoksos.txt");
+        out << ss.str();
+        out.close();
+    }
+}
+
+void pasiskirstymas_vector_1(const vector<Studentas> &Grupe, const int &irasu_sk)
+{
+    Timer t; // paleidzia laikmati
+    vector<Studentas> moksliukai, nemoksos;
+    moksliukai.reserve(irasu_sk);
+    nemoksos.reserve(irasu_sk);
+
+    for (auto &stud : Grupe)
+    {
+        if (stud.galutinis() >= 5.0)
+        {
+            moksliukai.push_back(stud);
+        }
+        else
+        {
+            nemoksos.push_back(stud);
+        }
+    }
+    cout << irasu_sk << " vektoriaus padalijimo i dvi grupes, vykdant 1 strategija, laikas " << t.elapsed() << endl;
+    if (irasu_sk == 1000)
+    {
+        Spausdink(moksliukai, nemoksos, "1", "vector");
+    }
+}
+
+void pasiskirstymas_list_1(const list<Studentas> &Grupe, const int &irasu_sk)
+{
+    Timer t;
+    list<Studentas> moksliukai, nemoksos;
+    for (auto &stud : Grupe)
+    {
+        if (stud.galutinis() >= 5.0)
+        {
+            moksliukai.push_back(stud);
+        }
+        else
+        {
+            nemoksos.push_back(stud);
+        }
+    }
+    cout << irasu_sk << " saraso padalijimo i dvi grupes, vykdant 1 strategija, laikas " << t.elapsed() << endl;
+    if (irasu_sk == 1000)
+    {
+        Spausdink(moksliukai, nemoksos, "1", "list");
+    }
+}
+
+void pasiskirstymas_vector_2(vector<Studentas> Grupe, const int &irasu_sk)
+{
+    Timer t;
+    vector<Studentas> nemoksos;
+    nemoksos.reserve(irasu_sk);
+    size_t i = 0;
+
+    for (size_t j = 0; j < Grupe.size(); ++j)
+    {
+        if (Grupe[j].galutinis() >= 5.0)
+        {
+            Grupe[i] = move(Grupe[j]);
+            i++;
+        }
+        else
+        {
+            nemoksos.push_back(move(Grupe[j]));
+        }
+    }
+    Grupe.erase(Grupe.begin() + i, Grupe.end());
+    cout << irasu_sk << " vektoriaus padalijimo i dvi grupes, vykdant 2 strategija, laikas " << t.elapsed() << endl;
+    if (irasu_sk == 1000)
+    {
+        Spausdink(Grupe, nemoksos, "2", "vector");
+    }
+}
+
+void pasiskirstymas_list_2(list<Studentas> Grupe, const int &irasu_sk)
+{
+    Timer t;
+    list<Studentas> nemoksos;
+    for (auto it = Grupe.begin(); it != Grupe.end();)
+    {
+        if (it->galutinis() < 5.0)
+        {
+            nemoksos.push_back(*it);
+            it = Grupe.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+    cout << irasu_sk << " saraso padalijimo i dvi grupes, vykdant 2 strategija, laikas " << t.elapsed() << endl;
+    if (irasu_sk == 1000)
+    {
+        Spausdink(Grupe, nemoksos, "2", "list");
+    }
+}
+
+void pasiskirstymas_vector_3(vector<Studentas> &Grupe, const int &irasu_sk)
+{
+    Timer t;
+    vector<Studentas> nemoksos;
+    nemoksos.reserve(irasu_sk);
+
+    auto it = partition(Grupe.begin(), Grupe.end(),
+                        [](const Studentas &s)
+                        { return s.galutinis() >= 5.0; });
+    nemoksos.assign(it, Grupe.end());
+    Grupe.erase(it, Grupe.end());
+
+    cout << irasu_sk << " vektoriaus padalijimo i dvi grupes, vykdant 3 strategija, laikas " << t.elapsed() << endl;
+    if (irasu_sk == 1000)
+    {
+        Spausdink(Grupe, nemoksos, "3", "vector");
+    }
+}
+
+void pasiskirstymas_list_3(list<Studentas> &Grupe, const int &irasu_sk)
+{
+    Timer t;
+    list<Studentas> nemoksos;
+    Grupe.remove_if([&nemoksos](const Studentas &s)
+                    {
+                        if (s.galutinis() < 5.0)
+                        {
+                            nemoksos.push_back(s);
+                            return true; // pasalins is grupes si studenta
+                        }
+                        return false; // paliks studenta
+                    });
+    cout << irasu_sk << " saraso padalijimo i dvi grupes, vykdant 3 strategija, laikas " << t.elapsed() << endl;
+    if (irasu_sk == 1000)
+    {
+        Spausdink(Grupe, nemoksos, "3", "list");
+    }
+}
+
+void generuok_failus()
+{
+    int sk;
+    char ats;
+    cout << "Ar noretumete sugeneruoti failus dabar (t arba n)? ";
+    cin >> ats;
+    if (ats == 't')
+    {
+        cout << "Sugeneruosime 5 skirtingo dydzio failus. " << endl;
+        cout << "Kiek pazymiu generuojam kiekvienam studentui? ";
+        cin >> sk;
+        cout << "Generuojami failai..." << endl;
+
+        failu_generavimas(1000, sk);
+        failu_generavimas(10000, sk);
+        failu_generavimas(100000, sk);
+        failu_generavimas(1000000, sk);
+        failu_generavimas(10000000, sk);
+    }
+}
+void failu_generavimas(int eil, int paz)
+{
+    std::string fvardas = "\\studentai" + std::to_string(eil) + ".txt";
+
+    stringstream srautas;
+    srautas << "Vardas Pavarde ";
+    for (int i = 1; i <= paz; i++)
+    {
+        srautas << "ND" << i << " ";
+    }
+    srautas << "Egz" << endl;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, 10);
+
+    for (int i = 1; i <= eil; i++)
+    {
+        srautas << "Vardas" << i << " Pavarde" << i << " ";
+        for (int j = 1; j <= paz; j++)
+        {
+            srautas << dist(gen) << " ";
+        }
+        srautas << dist(gen) << endl;
+    }
+    ofstream out(fvardas);
+    out << srautas.str();
+    out.close();
 }
