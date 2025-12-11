@@ -5,7 +5,7 @@
 
 **V3.0**---------------------------------------------------------------------------------------------------------------------------
 
-1. Sukurtas programos "VidurkisGO" paleidimo failas setup.exe (pagal 2 varsiją).
+1. Sukurtas programos "VidurkisGO" paleidimo failas setup.exe (pagal 2 versiją).
 
 Idegimo instrukcija:
 1. Atsisiųskite setup.exe. Pagal išanksto nustatytus nustatymus failas bus įrašytas į "C:/Program files/VU/Julija-Kuc".
